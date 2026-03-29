@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EZEQUIEL.DEV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="cur"></div>
+    <div class="grid-bg"></div>
+    <div class="glow1"></div>
+    <div class="glow2"></div>
+    <div id="lamp-light"></div>
+
+    <!-- hint in the dark -->
+    <div id="pull-label">PULL CORD ↑</div>
+
+    <!-- LAMP — always visible -->
+    <div id="lamp-wrap">
+      <svg
+        width="110"
+        height="580"
+        viewBox="0 0 110 580"
+        xmlns="http://www.w3.org/2000/svg"
+        overflow="visible"
+      >
+        <defs>
+          <radialGradient id="bGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff9c4" stop-opacity="1" />
+            <stop offset="55%" stop-color="#ffe57a" stop-opacity=".7" />
+            <stop offset="100%" stop-color="#ffd740" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="shadeGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a2f3a" />
+            <stop offset="100%" stop-color="#181c25" />
+          </linearGradient>
+          <radialGradient id="coneG" cx="50%" cy="0%" r="100%" fy="0%">
+            <stop offset="0%" stop-color="#fff5b0" stop-opacity=".35" />
+            <stop offset="40%" stop-color="#ffe566" stop-opacity=".15" />
+            <stop offset="100%" stop-color="#ffcc00" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <g id="lamp-inner">
+          <line
+            x1="55"
+            y1="0"
+            x2="55"
+            y2="88"
+            stroke="#4a5060"
+            stroke-width="1.5"
+          />
+
+          <polygon
+            id="cone"
+            points="24,188 86,188 138,510 -28,510"
+            fill="url(#coneG)"
+          />
+
+          <polygon
+            points="18,132 92,132 82,188 28,188"
+            fill="url(#shadeGrad)"
+          />
+          <rect
+            x="14"
+            y="127"
+            width="82"
+            height="9"
+            rx="3"
+            fill="#20242e"
+            stroke="#8ff5ff"
+            stroke-width=".7"
+            stroke-opacity=".3"
+          />
+          <rect
+            x="24"
+            y="185"
+            width="62"
+            height="6"
+            rx="2"
+            fill="#161a22"
+            stroke="#8ff5ff"
+            stroke-width=".6"
+            stroke-opacity=".2"
+          />
+          <line
+            x1="18"
+            y1="132"
+            x2="28"
+            y2="188"
+            stroke="#8ff5ff"
+            stroke-width=".5"
+            stroke-opacity=".12"
+          />
+          <line
+            x1="92"
+            y1="132"
+            x2="82"
+            y2="188"
+            stroke="#8ff5ff"
+            stroke-width=".5"
+            stroke-opacity=".12"
+          />
+          <rect
+            x="40"
+            y="85"
+            width="30"
+            height="46"
+            rx="4"
+            fill="#1a1e28"
+            stroke="#3a3f4e"
+            stroke-width=".8"
+          />
+          <rect
+            x="45"
+            y="183"
+            width="20"
+            height="12"
+            rx="3"
+            fill="#1a1e28"
+            stroke="#3a3f4e"
+            stroke-width=".7"
+          />
+          <ellipse
+            cx="55"
+            cy="196"
+            rx="10"
+            ry="12"
+            fill="#1e222b"
+            stroke="#3a3f4e"
+            stroke-width=".8"
+          />
+          <path
+            d="M49 196 Q52 192 55 196 Q58 200 61 196"
+            fill="none"
+            stroke="#556"
+            stroke-width=".9"
+          />
+          <ellipse
+            id="bulb-glow"
+            cx="55"
+            cy="196"
+            rx="26"
+            ry="28"
+            fill="url(#bGlow)"
+          />
+
+          <g id="rope-g">
+            <line
+              x1="55"
+              y1="205"
+              x2="55"
+              y2="318"
+              stroke="#7a6a55"
+              stroke-width="2"
+              stroke-dasharray="5,4"
+            />
+            <circle
+              cx="55"
+              cy="321"
+              r="5.5"
+              fill="#5a4a38"
+              stroke="#9a8060"
+              stroke-width="1.2"
+            />
+            <circle cx="55" cy="321" r="3.2" fill="#4a3c2c" />
+            <line
+              x1="50"
+              y1="325"
+              x2="47"
+              y2="335"
+              stroke="#7a6a55"
+              stroke-width="1.2"
+            />
+            <line
+              x1="55"
+              y1="326"
+              x2="55"
+              y2="337"
+              stroke="#7a6a55"
+              stroke-width="1.2"
+            />
+            <line
+              x1="60"
+              y1="325"
+              x2="63"
+              y2="335"
+              stroke="#7a6a55"
+              stroke-width="1.2"
+            />
+          </g>
+        </g>
+      </svg>
+
+      <div
+        id="rope-btn"
+        style="
+          position: absolute;
+          left: 38px;
+          top: 200px;
+          width: 34px;
+          height: 145px;
+          cursor: pointer;
+          z-index: 102;
+        "
+      ></div>
+    </div>
+
+    <!-- ALL PAGE CONTENT — hidden until lamp on -->
+    <div id="page-content">
+      <header>
+        <div class="logo">LOGIN DE PRUEBA </div>
+        <div style="display: flex; align-items: center; gap: 1.5rem">
+          <span class="proto">SEGURIDAD</span>
+          <span
+            style="
+              font-family: &quot;Material Symbols Outlined&quot;;
+              color: #45484f;
+              font-size: 1.1rem;
+              font-weight: 300;
+            "
+            >settings</span
+          >
+          <span
+            style="
+              font-family: &quot;Material Symbols Outlined&quot;;
+              color: #45484f;
+              font-size: 1.1rem;
+              font-weight: 300;
+            "
+            >help</span
+          >
+        </div>
+      </header>
+
+      <main>
+        <div class="card" id="card">
+          <div class="card-accent"></div>
+          <div style="text-align: center; margin-bottom: 2.5rem">
+            <h1
+              style="
+                font-family: &quot;Space Grotesk&quot;, sans-serif;
+                font-size: 2rem;
+                font-weight: 700;
+                letter-spacing: -0.03em;
+                margin-bottom: 0.5rem;
+              "
+            >
+              ACCESO
+            </h1>
+            <p
+              style="
+                font-family: &quot;Space Grotesk&quot;, sans-serif;
+                font-size: 0.65rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: #d1ea12;
+              "
+            >
+              INDENTIFICACIÓN DE USUARIO REQUERIDA
+
+
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 2rem">
+            <div>
+              <label class="field-label">USUARIO</label>
+              <div class="field-wrap">
+                <input class="field-input" type="text" placeholder="USUARIO" />
+                <span class="field-icon">fingerprint</span>
+              </div>
+            </div>
+            <div>
+              <label class="field-label">CONTRASEÑA</label>
+              <div class="field-wrap" style="position: relative;">
+                <input
+                  id="passwordInput"
+                  class="field-input"
+                  type="password"
+                  placeholder="••••••••"
+                />
+                <span class="field-icon">lock</span>
+                <button
+                  id="togglePassword"
+                  type="button"
+                  style="position: absolute; right: .5rem; top: .8rem; background: transparent; border: none; color: #45484f; cursor: pointer; font-family: 'Material Symbols Outlined'; font-size: 1.1rem;"
+                  aria-label="Mostrar/ocultar contraseña"
+                >visibility</button>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  style="accent-color: #8ff5ff; width: 0.9rem; height: 0.9rem"
+                />
+                <span
+                  style="
+                    font-family: &quot;Space Grotesk&quot;, sans-serif;
+                    font-size: 0.6rem;
+                    letter-spacing: 0.18em;
+                    text-transform: uppercase;
+                    color: #a9abb3;
+                  "
+                  >RECORDAR</span
+                >
+              </label>
+              <a
+                href="#"
+                style="
+                  font-family: &quot;Space Grotesk&quot;, sans-serif;
+                  font-size: 0.6rem;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  color: #d575ff;
+                  text-decoration: none;
+                "
+                >ME OLVIDE LA CONTRASEÑA?</a
+              >
+            </div>
+            <button class="btn-primary" onclick="return false;">
+              INICIAR SESIÓN
+            </button>
+          </div>
+
+          <p class="divider-text">OTRAS FORMAS DE INICIAR SESIÓN</p>
+          <div style="display: flex; justify-content: center; gap: 1rem">
+            <button class="btn-alt">cloud</button>
+            <button class="btn-alt">key</button>
+            <button class="btn-alt">shield</button>
+          </div>
+
+          <p class="hint" id="hint">← DISEÑO PROPIEDAD EZEQUIEL LUCCA</p>
+        </div>
+      </main>
+
+      <footer>
+        <span class="footer-text"
+          >© 2026 EZEQUIEL LUIS LUCCA. ALL RIGHTS RESERVED.</span
+        >
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Protocol</a>
+          <a href="#">Terminal_Access</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,295 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #040507;
+  min-height: 100vh;
+  font-family: 'Manrope', sans-serif;
+  color: #c2e70b;
+  cursor: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/* cursor */
+#cur {
+  width: 22px; height: 22px;
+  border: 2px solid #8ff5ff;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 10px #0ebfcf;
+  transition: border-color .2s, box-shadow .2s, width .15s, height .15s;
+}
+
+/* everything that should be hidden in the dark */
+#page-content {
+  opacity: 0;
+  transition: opacity .9s ease;
+  position: relative;
+  z-index: 10;
+}
+body.lamp-on #page-content {
+  opacity: 1;
+}
+
+/* warm light from lamp */
+#lamp-light {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .7s ease;
+  background: radial-gradient(ellipse 500px 580px at 110px 270px,
+    rgba(255,240,160,.16) 0%,
+    rgba(255,220,80,.06) 48%,
+    transparent 70%);
+}
+body.lamp-on #lamp-light { opacity: 1; }
+
+/* grid bg — also hidden until lamp on */
+.grid-bg {
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(69,72,79,.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(69,72,79,.25) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(60deg) translateY(-100px);
+  transform-origin: top;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+body.lamp-on .grid-bg { opacity: 1; }
+
+/* glows — also hidden */
+.glow1 {
+  position: fixed; width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(143,245,255,.12) 0%, transparent 70%);
+  top: -80px; left: -80px;
+  pointer-events: none; z-index: 0;
+  opacity: 0; transition: opacity .9s ease;
+}
+.glow2 {
+  position: fixed; width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(213,117,255,.08) 0%, transparent 70%);
+  bottom: 40px; right: -60px;
+  pointer-events: none; z-index: 0;
+  opacity: 0; transition: opacity .9s ease;
+}
+body.lamp-on .glow1,
+body.lamp-on .glow2 { opacity: 1; }
+
+/* lamp wrap — always visible, above everything */
+#lamp-wrap {
+  position: fixed;
+  left: 52px; top: 0;
+  width: 110px;
+  z-index: 100;
+}
+
+/* "pull cord" hint — visible only in dark */
+#pull-label {
+  position: fixed;
+  left: 24px; top: 360px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .55rem; letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(143,245,255,.4);
+  writing-mode: vertical-rl;
+  z-index: 101;
+  pointer-events: none;
+  animation: labelPulse 2s ease-in-out infinite alternate;
+  transition: opacity .5s;
+}
+body.lamp-on #pull-label { opacity: 0; }
+@keyframes labelPulse {
+  from { opacity: .2; }
+  to   { opacity: .6; }
+}
+
+/* swing animation */
+@keyframes swing {
+  0%   { transform: rotate(0deg); }
+  18%  { transform: rotate(5deg); }
+  38%  { transform: rotate(-3.5deg); }
+  56%  { transform: rotate(2deg); }
+  72%  { transform: rotate(-1deg); }
+  85%  { transform: rotate(.5deg); }
+  100% { transform: rotate(0deg); }
+}
+#lamp-inner { transform-origin: 55px 0px; }
+.swinging #lamp-inner { animation: swing 1.3s ease-out forwards; }
+
+/* rope pull */
+@keyframes ropePull {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(16px); }
+  100% { transform: translateY(0); }
+}
+.pulling #rope-g { animation: ropePull .25s ease-out forwards; }
+
+/* flicker */
+@keyframes flicker {
+  0%   { opacity:0; }
+  20%  { opacity:1; }
+  30%  { opacity:.1; }
+  48%  { opacity:1; }
+  58%  { opacity:.35; }
+  78%  { opacity:1; }
+  100% { opacity:1; }
+}
+.flickering #bulb-glow,
+.flickering #cone { animation: flicker .65s ease-out forwards; }
+.flickering #lamp-light { animation: flicker .65s ease-out forwards; }
+
+#bulb-glow { opacity: 0; transition: opacity .3s; }
+#cone       { opacity: 0; transition: opacity .3s; }
+body.lamp-on #bulb-glow { opacity: 1; }
+body.lamp-on #cone       { opacity: 1; }
+
+/* rope click area */
+#rope-btn {
+  position: absolute;
+  left: 38px; top: 200px;
+  width: 34px; height: 145px;
+  cursor: pointer !important;
+  z-index: 102;
+}
+
+/* header */
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 2rem;
+}
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: #22d3ee;
+  text-shadow: 0 0 12px rgba(0,240,255,.5);
+  letter-spacing: -.03em;
+}
+.proto {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem; letter-spacing: .2em;
+  color: #4b5563; text-transform: uppercase;
+}
+
+/* main layout */
+main {
+  min-height: calc(100vh - 80px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+
+/* card */
+.card {
+  background: rgba(34,38,47,.45);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(143,245,255,.1);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  width: 100%; max-width: 420px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,.8),
+              inset 0 0 20px rgba(143,245,255,.04);
+  transition: box-shadow .5s ease, transform .1s ease;
+}
+body.lamp-on .card {
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,.6),
+              inset 0 0 20px rgba(143,245,255,.04),
+              -25px 0 70px -15px rgba(255,220,100,.08);
+}
+.card-accent {
+  position: absolute; top: 0; left: 25%; right: 25%; height: 2px;
+  background: linear-gradient(90deg, transparent, #8ff5ff, transparent);
+  opacity: .4;
+}
+
+/* form */
+.field-label {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+  color: #a9abb3; margin-bottom: .5rem;
+}
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 2px solid #45484f;
+  padding: .75rem .25rem;
+  color: #ecedf6; font-family: 'Manrope', sans-serif; font-size: .95rem;
+  outline: none; transition: border-color .3s;
+}
+.field-input::placeholder { color: #45484f; }
+.field-input:focus { border-bottom-color: #8ff5ff; }
+.field-icon {
+  position: absolute; right: .5rem; top: .7rem;
+  font-family: 'Material Symbols Outlined'; font-size: 1.2rem;
+  color: #45484f; transition: color .3s; font-weight: 300;
+}
+.field-wrap:focus-within .field-icon { color: #8ff5ff; }
+
+.btn-primary {
+  width: 100%; padding: 1rem;
+  background: linear-gradient(90deg, #8ff5ff, #00deec);
+  border: none; border-radius: 9999px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: #005d63; cursor: pointer;
+  box-shadow: 0 0 20px rgba(143,245,255,.2);
+  transition: box-shadow .3s, transform .15s;
+}
+.btn-primary:hover { box-shadow: 0 0 30px rgba(143,245,255,.4); }
+.btn-primary:active { transform: scale(.97); }
+
+.btn-alt {
+  width: 3rem; height: 3rem; border-radius: .75rem;
+  background: #1c2028; border: 1px solid rgba(69,72,79,.3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color .2s;
+  font-family: 'Material Symbols Outlined'; font-size: 1.2rem;
+  color: #a9abb3; font-weight: 300;
+}
+.btn-alt:hover { border-color: #8ff5ff; color: #8ff5ff; }
+
+.divider-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+  color: #a9abb3; text-align: center; margin: 2rem 0 1rem;
+}
+
+.hint {
+  text-align: center; margin-top: 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .55rem; letter-spacing: .18em; text-transform: uppercase;
+  color: #2d3140; transition: color .4s;
+}
+body.lamp-on .hint { color: #4a5060; }
+
+/* footer */
+footer {
+  padding: .8rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  opacity: .4;
+}
+.footer-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .55rem; letter-spacing: .2em; text-transform: uppercase; color: #374151;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .55rem; letter-spacing: .2em; text-transform: uppercase;
+  color: #374151; text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: #22d3ee; }
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal; font-weight: 100 700;
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v220/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2) format('woff2');
+}
